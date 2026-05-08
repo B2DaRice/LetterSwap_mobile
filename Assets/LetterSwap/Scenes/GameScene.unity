@@ -949,6 +949,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1314540682}
+  - component: {fileID: 1314540683}
   m_Layer: 0
   m_Name: InputController
   m_TagString: Untagged
@@ -971,6 +972,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 420893630}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1314540683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314540681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ac2ffae99062734887367fefa6e63b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LetterSwap.InputController
+  gameController: {fileID: 1942799322}
+  boardView: {fileID: 1882461959}
 --- !u!1 &1381584168
 GameObject:
   m_ObjectHideFlags: 0
@@ -1408,9 +1423,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LetterSwap.BoardView
   boardRoot: {fileID: 1882461955}
+  inputController: {fileID: 1314540683}
   tileColor: {r: 0.93, g: 0.89, b: 0.78, a: 1}
   alternateTileColor: {r: 0.86, g: 0.91, b: 0.88, a: 1}
   textColor: {r: 0.13, g: 0.15, b: 0.18, a: 1}
+  selectionColor: {r: 0.18, g: 0.58, b: 0.62, a: 1}
 --- !u!1 &1902394525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1534,6 +1551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LetterSwap.GameController
   boardView: {fileID: 1882461959}
+  inputController: {fileID: 1314540683}
   rows: 8
   columns: 8
   randomSeed: 1208

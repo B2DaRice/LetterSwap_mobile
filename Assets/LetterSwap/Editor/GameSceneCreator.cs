@@ -105,7 +105,27 @@ namespace LetterSwap.Editor
                 gameController = gameControllerObject.AddComponent<GameController>();
             }
 
+            var inputControllerObject = GameObject.Find("InputController");
+            if (inputControllerObject == null)
+            {
+                var systems = GameObject.Find("_Systems");
+                inputControllerObject = new GameObject("InputController");
+                if (systems != null)
+                {
+                    inputControllerObject.transform.SetParent(systems.transform);
+                }
+            }
+
+            var inputController = inputControllerObject.GetComponent<InputController>();
+            if (inputController == null)
+            {
+                inputController = inputControllerObject.AddComponent<InputController>();
+            }
+
             gameController.SetBoardView(boardView);
+            gameController.SetInputController(inputController);
+            inputController.SetReferences(gameController, boardView);
+            boardView.SetInputController(inputController);
             UpgradeOpenSceneInputModule();
             EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         }

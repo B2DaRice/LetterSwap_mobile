@@ -5,6 +5,7 @@ namespace LetterSwap
     public sealed class GameController : MonoBehaviour
     {
         [SerializeField] private BoardView boardView;
+        [SerializeField] private InputController inputController;
         [SerializeField] private int rows = 8;
         [SerializeField] private int columns = 8;
         [SerializeField] private int randomSeed = 1208;
@@ -33,12 +34,34 @@ namespace LetterSwap
                 return;
             }
 
+            if (inputController == null)
+            {
+                inputController = FindFirstObjectByType<InputController>();
+            }
+
+            if (inputController == null)
+            {
+                inputController = gameObject.AddComponent<InputController>();
+            }
+
+            inputController?.SetReferences(this, boardView);
+            boardView.SetInputController(inputController);
             boardView.Render(board);
         }
 
         public void SetBoardView(BoardView view)
         {
             boardView = view;
+        }
+
+        public void SetInputController(InputController controller)
+        {
+            inputController = controller;
+        }
+
+        public void HandleAdjacentTilesSelected(BoardCoordinate first, BoardCoordinate second)
+        {
+            Debug.Log($"Adjacent tile pair selected: {first} and {second}");
         }
     }
 }
