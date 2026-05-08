@@ -9,7 +9,6 @@ namespace LetterSwap
         [SerializeField] private int rows = 8;
         [SerializeField] private int columns = 8;
         [SerializeField] private int randomSeed = 1208;
-        [SerializeField] private string letterSource = "EEEEEEEEEEEEAAAAAAAAAIIIIIIIIOOOOOOOONNNNNNRRRRRRTTTTTTLLLLSSSSUUUUDDDDGGGBBCCMMPPFFHHVVWWYYKJXQZ";
 
         private BoardModel board;
 
@@ -21,7 +20,7 @@ namespace LetterSwap
         public void StartNewGame()
         {
             board = new BoardModel(rows, columns);
-            board.Fill(new RandomLetterGenerator(randomSeed, letterSource));
+            board.Fill(new RandomLetterGenerator(randomSeed));
 
             if (boardView == null)
             {
