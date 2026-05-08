@@ -68,6 +68,48 @@ namespace LetterSwap.Editor
             EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         }
 
+        [MenuItem("LetterSwap/Configure Open Scene Board Generation")]
+        public static void ConfigureOpenSceneBoardGeneration()
+        {
+            var boardArea = GameObject.Find("BoardArea");
+            if (boardArea == null)
+            {
+                Debug.LogError("Could not find BoardArea in the open scene.");
+                return;
+            }
+
+            var boardRoot = boardArea.GetComponent<RectTransform>();
+            var boardView = boardArea.GetComponent<BoardView>();
+            if (boardView == null)
+            {
+                boardView = boardArea.AddComponent<BoardView>();
+            }
+
+            boardView.SetBoardRoot(boardRoot);
+            ClearChildren(boardArea.transform);
+
+            var gameControllerObject = GameObject.Find("GameController");
+            if (gameControllerObject == null)
+            {
+                var systems = GameObject.Find("_Systems");
+                gameControllerObject = new GameObject("GameController");
+                if (systems != null)
+                {
+                    gameControllerObject.transform.SetParent(systems.transform);
+                }
+            }
+
+            var gameController = gameControllerObject.GetComponent<GameController>();
+            if (gameController == null)
+            {
+                gameController = gameControllerObject.AddComponent<GameController>();
+            }
+
+            gameController.SetBoardView(boardView);
+            UpgradeOpenSceneInputModule();
+            EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+        }
+
         private static void CreateCamera()
         {
             var cameraObject = new GameObject("Main Camera");
@@ -193,6 +235,14 @@ namespace LetterSwap.Editor
             gameObject.AddComponent<RectTransform>();
             gameObject.transform.SetParent(parent, false);
             return gameObject;
+        }
+
+        private static void ClearChildren(Transform parent)
+        {
+            for (var i = parent.childCount - 1; i >= 0; i--)
+            {
+                Object.DestroyImmediate(parent.GetChild(i).gameObject);
+            }
         }
 
         private static Text CreateText(string name, Transform parent, string value, int fontSize, TextAnchor alignment, Color color)
