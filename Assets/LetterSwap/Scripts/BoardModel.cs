@@ -54,6 +54,16 @@ namespace LetterSwap
             }
         }
 
+        public void SwapLetters(BoardCoordinate first, BoardCoordinate second)
+        {
+            EnsureInBounds(first);
+            EnsureInBounds(second);
+
+            var firstLetter = letters[first.Row, first.Column];
+            letters[first.Row, first.Column] = letters[second.Row, second.Column];
+            letters[second.Row, second.Column] = firstLetter;
+        }
+
         public bool IsInBounds(BoardCoordinate coordinate)
         {
             return coordinate.Row >= 0

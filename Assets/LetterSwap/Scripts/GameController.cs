@@ -61,7 +61,21 @@ namespace LetterSwap
 
         public void HandleAdjacentTilesSelected(BoardCoordinate first, BoardCoordinate second)
         {
-            Debug.Log($"Adjacent tile pair selected: {first} and {second}");
+            if (board == null)
+            {
+                Debug.LogError("Cannot swap tiles because the board has not been created.");
+                return;
+            }
+
+            if (!BoardRules.AreAdjacent(first, second))
+            {
+                Debug.LogWarning($"Ignoring non-adjacent tile pair: {first} and {second}");
+                return;
+            }
+
+            board.SwapLetters(first, second);
+            boardView.Render(board);
+            Debug.Log($"Swapped adjacent tile pair: {first} and {second}");
         }
     }
 }

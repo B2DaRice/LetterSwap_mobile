@@ -1,10 +1,9 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace LetterSwap
 {
-    public sealed class TileView : MonoBehaviour, IPointerClickHandler
+    public sealed class TileView : MonoBehaviour
     {
         [SerializeField] private Image background;
         [SerializeField] private Text letterText;
@@ -12,8 +11,6 @@ namespace LetterSwap
 
         private Color normalBackgroundColor;
         private readonly Color selectedBackgroundColor = new Color(0.18f, 0.86f, 0.92f);
-        private InputController inputController;
-
         public BoardCoordinate Coordinate { get; private set; }
 
         public void Configure(BoardCoordinate coordinate, char letter, Color backgroundColor, Color textColor)
@@ -40,11 +37,6 @@ namespace LetterSwap
             selectionOutline = tileSelectionOutline;
         }
 
-        public void SetInputController(InputController controller)
-        {
-            inputController = controller;
-        }
-
         public void SetSelected(bool selected)
         {
             if (selectionOutline != null)
@@ -61,11 +53,6 @@ namespace LetterSwap
             {
                 letterText.fontStyle = selected ? FontStyle.Bold : FontStyle.Normal;
             }
-        }
-
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            inputController?.HandleTileTapped(this);
         }
     }
 }

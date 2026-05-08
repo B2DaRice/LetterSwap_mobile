@@ -226,7 +226,6 @@ namespace LetterSwap
             letterText.resizeTextMaxSize = 54;
 
             tileView.Bind(background, letterText, outline);
-            tileView.SetInputController(inputController);
             tileView.Configure(coordinate, letter, isAlternate ? alternateTileColor : tileColor, textColor);
         }
     }
