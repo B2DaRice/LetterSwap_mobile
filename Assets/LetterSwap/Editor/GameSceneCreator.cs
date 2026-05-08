@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -40,6 +41,31 @@ namespace LetterSwap.Editor
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+        }
+
+        [MenuItem("LetterSwap/Upgrade Open Scene Input Module")]
+        public static void UpgradeOpenSceneInputModule()
+        {
+            var eventSystem = Object.FindFirstObjectByType<EventSystem>();
+            if (eventSystem == null)
+            {
+                CreateEventSystem();
+            }
+            else
+            {
+                var standaloneInputModule = eventSystem.GetComponent<StandaloneInputModule>();
+                if (standaloneInputModule != null)
+                {
+                    Object.DestroyImmediate(standaloneInputModule);
+                }
+
+                if (eventSystem.GetComponent<InputSystemUIInputModule>() == null)
+                {
+                    eventSystem.gameObject.AddComponent<InputSystemUIInputModule>();
+                }
+            }
+
+            EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         }
 
         private static void CreateCamera()
@@ -158,7 +184,7 @@ namespace LetterSwap.Editor
         {
             var eventSystem = new GameObject("EventSystem");
             eventSystem.AddComponent<EventSystem>();
-            eventSystem.AddComponent<StandaloneInputModule>();
+            eventSystem.AddComponent<InputSystemUIInputModule>();
         }
 
         private static GameObject CreateUiObject(string name, Transform parent)
